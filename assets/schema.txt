@@ -1,0 +1,23 @@
+/budget-app
+    /assets
+        /css
+            tailwind.css
+    /config
+        config.php
+    /controllers
+        user.php
+        transactions.php
+        dashboard.php
+    /views
+        login.php
+        register.php
+        dashboard.php
+        transactions.php
+    /models
+        User.php
+        Transaction.php
+    /public
+        index.php
+    /includes
+        header.php
+        footer.php
