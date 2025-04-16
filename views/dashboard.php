@@ -14,27 +14,22 @@
 
     $typeSelected = $_POST['type'] ?? 'revenu';
 
-    function getCategories($type, $connection) {
-        $query = "SELECT * FROM categories WHERE type = :type";
-        $stmt = $connection->prepare($query);
-        $stmt->bindParam(':type', $type, PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
-    }
+
     
-    $categories = getCategories($typeSelected, $conn);
+    $categories = listCategories($typeSelected, $conn);
 
     $result;
+
+    if (isset($_POST['afficher']) && isset($_POST['categorie'])) {
+        $categorieId = $_POST['categorie'];
     
-    if (isset($_POST['afficher'])) {
         if ($typeSelected === 'revenu') {
-            $result = totalIncomesByCategory($_POST['categorie'], $conn);
-
+            $result = totalIncomesByCategory($categorieId, $conn);
         } else {
-            $result = totalExpensesByCategory($_POST['categorie'], $conn);
-
+            $result = totalExpensesByCategory($categorieId, $conn);
         }
     }
+    
 
 ?>
 
@@ -47,20 +42,13 @@
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-50">
     <?php  require '../header.php'; ?>
-<div class="flex flex-wrap gap-4 p-6 bg-gray-50">
+<div class="flex flex-wrap justify-center gap-4 p-6 ">
   <!-- Total Balance -->
   <div class="bg-white rounded-xl shadow-md p-6 w-72">
     <h2 class="text-sm font-semibold text-gray-500">Total Balance</h2>
     <p class="text-3xl font-bold text-blue-900 mt-2"><?= number_format(soldUser($conn), 2) ?> Dh </p>
-    <div class="flex items-center text-sm text-green-500 mt-4 border-t-2 pt-2">
-      <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M5 10l5-5 5 5H5z" />
-      </svg>
-      2.47%
-      <span class="ml-2 text-gray-400">Last month <span class="font-medium">$24,478</span></span>
-    </div>
   </div>
 
   <!-- Total Period Income -->
@@ -96,38 +84,46 @@
 </div>
 
 
-    <div class="max-w-6xl mx-auto p-6">
-        <h2 class="text-2xl font-semibold mb-4">Bienvenue, <?= htmlspecialchars($user['nom']) ?></h2>
-
-      
-
-        <form method="POST" class="mb-4">
-            <label for="type">Type :</label>
-            <select name="type" id="type" class="border p-2 rounded" >
-                <option value="revenu" <?= $typeSelected === 'revenu' ? 'selected' : '' ?>>Revenu</option>
-                <option value="depense" <?= $typeSelected === 'depense' ? 'selected' : '' ?>>Dépense</option>
-            </select>
-
-            <label for="categorie">Catégorie :</label>
-            <select name="categorie" id="categorie" class="border p-2 rounded" >
-                <?php foreach ($categories as $cat): ?>
-                    <option value="<?= $cat['id'] ?>" <?=$_POST['categorie']===$cat['id']? 'selected':''?>><?= $cat['nom'] ?></option>
-                <?php endforeach; ?>
-            </select>
-            <button type="submit" name="afficher" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded">Afficher</button>
-        </form>
-
-        <div class="mb-4">
-            <h3 class="text-xl">Total par catégorie</h3>
-            <p><?= number_format($result ?? 0, 2) ?> MAD</p>
+<div class="max-w-6xl mx-auto p-6 bg-white rounded-xl shadow-md">
+    <h3 class="text-xl font-semibold mb-4 text-primary border-b pb-2">Filtrer par catégorie</h3>
+    <form method="POST" class="flex flex-wrap gap-10 mx-3">
+        <div class="mb-6">
+            <p class="text-sm font-medium mb-3 text-gray-600">Type de transaction:</p>
+            <div class="inline-flex border border-primary rounded-full overflow-hidden text-sm">
+                <label class="px-6 py-2 font-medium cursor-pointer transition-colors <?= $typeSelected === 'revenu' ? 'bg-blue-500 text-white' : 'hover:bg-blue-100' ?>">
+                    <input type="radio" name="type" value="revenu" onchange="this.form.submit()" class="hidden" <?= $typeSelected === 'revenu' ? 'checked' : '' ?>> Revenu
+                </label>
+                <label class="px-6 py-2 font-medium cursor-pointer transition-colors <?= $typeSelected === 'depense' ? 'bg-blue-500 text-white' : 'hover:bg-blue-100' ?>">
+                    <input type="radio" name="type" value="depense" onchange="this.form.submit()" class="hidden" <?= $typeSelected === 'depense' ? 'checked' : '' ?>> Dépense
+                </label>
+            </div>
         </div>
+            <div class="flex-grow">
+                <label for="categorie" class="block text-sm font-medium mb-2 text-gray-600">Catégorie :</label>
+                <select name="categorie" id="categorie" class="w-full border-2 border-gray-200 p-2 rounded-lg transition-all min-w-[150px]">
+                    <?php foreach ($categories as $cat): ?>
+                        <option value="<?= $cat['id'] ?>" <?= (isset($_POST['categorie']) && $_POST['categorie'] == $cat['id']) ? 'selected' : '' ?>>
+                            <?= $cat['nom'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            
+            <button type="submit" name="afficher" class="px-4 py-2 bg-blue-500 text-white hover:bg-yellow-400 font-medium rounded-lg transition-colors shadow-md flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                Afficher
+            </button>
+        
+    </form>
 
-
-        <div class="mb-4">
-            <h3 class="text-xl">Transactions</h3>
-            <a href="transactions.php" class="text-blue-500">Voir toutes les transactions</a>
-        </div>
+    <div class="mt-2 p-6 bg-gray-50 rounded-lg border border-gray-100">
+        <h3 class="text-lg font-semibold text-primary mb-3">Total par catégorie</h3>
+        <p class="text-3xl font-bold text-primary"><?= number_format($result ?? 0, 2) ?> <span class="text-sm font-normal text-gray-500">Dh</span></p>
     </div>
+  
+</div>
     <script src="script.js"></script>
 </body>
 </html>

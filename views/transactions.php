@@ -40,12 +40,25 @@ if(isset($_POST['delete'])){
 
         <!-- Search and Add User (Static) -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-            <div class="w-full md:w-1/3 mb-4 md:mb-0">
-                <input type="text" placeholder="Search users..." class="w-full px-4 py-2 rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <form method="POST" class="flex items-end gap-4 mb-6">
+            <div>
+                <label for="periode" class="block text-sm font-medium text-gray-700">Mois & Année</label>
+                <input 
+                type="month" 
+                id="periode" 
+                name="periode" 
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" 
+                value="<?= $_POST['periode'] ?? date('Y-m') ?>">
             </div>
+
+            <button type="submit" name="rechercher" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Rechercher
+            </button>
+        </form>
+
             <a href="" >
                  <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
-                Add New User
+                Add New Transaction
             </button>
             </a>
            
@@ -100,21 +113,15 @@ if(isset($_POST['delete'])){
     <h2 class="text-xl font-semibold mb-4">Modifier la transaction</h2>
     <form action="" method="POST" class="space-y-4">
       <input type="hidden" name="transaction_id" id="edit_id">
-
-      <input type="number" name="montant" id="edit_montant" class="w-full border p-2 rounded">
-      <input type="date" name="date_transaction" id="edit_date" required class="w-full border p-2 rounded">
-      <textarea name="description" id="edit_description" class="w-full border p-2 rounded" rows="2"></textarea>
       
-      <div class="inline-flex border border-blue-400 rounded-full overflow-hidden text-sm">
-        <label class="px-4 py-2 font-medium cursor-pointer transition-colors">
-            <input type="radio" name="type" value="depense" class="hidden"> Dépense
+      <div class="inline-flex border border-primary rounded-full overflow-hidden text-sm">
+        <label class="px-6 py-2 font-medium cursor-pointer transition-colors <?= $typeSelected === 'revenu' ? 'bg-blue-500 text-white' : 'hover:bg-blue-100' ?>">
+            <input type="radio" name="type" value="revenu" onchange="this.form.submit()" class="hidden" <?= $typeSelected === 'revenu' ? 'checked' : '' ?>> Revenu
         </label>
-        <label class="px-4 py-2 font-medium cursor-pointer transition-colors">
-            <input type="radio" name="type" value="revenu" class="hidden"> Revenu
+        <label class="px-6 py-2 font-medium cursor-pointer transition-colors <?= $typeSelected === 'depense' ? 'bg-blue-500 text-white' : 'hover:bg-blue-100' ?>">
+            <input type="radio" name="type" value="depense" onchange="this.form.submit()" class="hidden" <?= $typeSelected === 'depense' ? 'checked' : '' ?>> Dépense
         </label>
       </div>
-
-
 
       <select name="category_id" id="edit_category" class="w-full border p-2 rounded">
         <?php 
@@ -123,6 +130,9 @@ if(isset($_POST['delete'])){
           <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nom']) ?></option>
         <?php endforeach; ?>
       </select>
+      <input type="number" name="montant" id="edit_montant" class="w-full border p-2 rounded">
+      <textarea name="description" id="edit_description" class="w-full border p-2 rounded" rows="2"></textarea>
+      <input type="date" name="date_transaction" id="edit_date" required class="w-full border p-2 rounded">
 
       <div class="flex justify-end space-x-2 pt-4 border-t">
         <button type="button" onclick="closeModal('editModal')" class="px-4 py-2 text-gray-500 hover:text-red-500">Annuler</button>

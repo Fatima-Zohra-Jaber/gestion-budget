@@ -41,9 +41,6 @@ INSERT INTO transactions (user_id, category_id, montant, description, date_trans
 VALUES 
 (2, 3, 1500.00, 'Vente d’objets', '2025-04-04'),
 (2, 7, 300.00, 'Essence', '2025-04-05');
+(2, 2, 1200.00, 'Bourse universitaire', '2025-04-06'),
+(2, 8, 500.00, 'Courses hebdomadaires', '2025-04-07');
 
--- Pour l'utilisateur 3
-INSERT INTO transactions (user_id, category_id, montant, description, date_transaction)
-VALUES 
-(3, 2, 1200.00, 'Bourse universitaire', '2025-04-06'),
-(3, 8, 500.00, 'Courses hebdomadaires', '2025-04-07');

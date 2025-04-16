@@ -63,7 +63,7 @@
                                     <a href="/settings" class="flex items-center px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
                                     <i class="fi fi-rr-settings mr-2 text-blue-600"></i> Settings
                                     </a>
-                                    <a href="/signin" class="flex items-center px-4 py-2 hover:bg-red-50 text-red-500 text-sm font-medium border-t">
+                                    <a href="login.php" class="flex items-center px-4 py-2 hover:bg-red-50 text-red-500 text-sm font-medium border-t">
                                     <i class="fi fi-bs-sign-out-alt mr-2"></i> Logout
                                     </a>
                             </div>

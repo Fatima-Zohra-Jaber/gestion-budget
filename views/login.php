@@ -21,7 +21,7 @@
             $user = logUser($email,$password,$conn);
             if($user){
                 $_SESSION['user'] = $user;
-                header("Location:index.php");
+                header("Location:dashboard.php");
                 exit;
             }else{
                 $erreur['password'] = "Email ou Mot de passe non valide!";
