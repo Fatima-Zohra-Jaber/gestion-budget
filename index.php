@@ -1,74 +1,85 @@
-<?php 
-    require_once 'config.php';
-    require_once 'transactions.php';
-
-    
-    if(isset($_POST['add'])){
-        $transaction['user_id'] = $_SESSION['user']['id'];
-        $transaction['category_id'] = $_POST['categoryId'];
-        $transaction['montant'] = trim(htmlspecialchars($_POST['montant']));
-        $transaction['description'] = trim(htmlspecialchars($_POST['description']));
-        $transaction['date_transaction'] = $_POST['date_transaction'];
-        addTransaction($transaction,$conn);
-    }
-    if(isset($_POST['delete'])){
-        $idTransaction = 
-        deleteTransaction($idTransaction,$conn);
-    }
-    if(isset($_POST['edit'])){
-        
-        editTransaction($idTransaction,$newTransaction,$conn);
-    }
-    if(isset($_POST['list'])){
-        
-        listTransactions($conn);
-    }
-    if(isset($_POST['listMonth'])){
-        
-        listTransactionsbyMonth($conn,$year,$month);
-    }
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion budgétaire</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DigiWallet - Gérez votre budget en toute simplicité</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <header class="bg-blue-500 text-white p-4">
-        <h1 class="text-2xl font-bold">Welcome to Your Budget Management System</h1>
-        <nav >
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="register.php">Register</a></li>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="transactions.php">Transactions</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h2>Manage Your Budget Effectively</h2>
-        <p>Use our system to track your expenses and income.</p>
-        <p><a href="register.php">Register</a> to get started!</p>
-        <p>If you already have an account, <a href="login.php">Login</a> to access your dashboard.</p>
-        <p>Check your <a href="transactions.php">transactions</a> to see your financial history.</p>
-        <form method="POST">
-            <input type="submit" value="Ajouter" name="add">
-            <input type="submit" value="Supprimer" name="delete">
-            <input type="submit" value="Modifier" name="edit">
-            <input type="submit" value="List Transactions" name="list">
-            <input type="submit" value="List Transactions par mois" name="listMonth">
-        </form>
-    </main>
-    <footer class="bg-blue-500 text-white p-4">
-        <p>&copy; 2023 Your Budget Management System</p>
-        <p><a href="privacy.php">Privacy Policy</a></p>
-        <p><a href="terms.php">Terms of Service</a></p>
-        <p><a href="contact.php">Contact Us</a></p>
-    </footer>
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- En-tête -->
+  <header class="bg-blue-700 text-white shadow">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <img src="images/logo1.png" alt="" class="h-14 w-auto">
+      <nav class="space-x-4">
+        <a href="#features" class="hover:underline">Fonctionnalités</a>
+        <a href="#why" class="hover:underline">Pourquoi DigiWallet</a>
+        <a href="../Projet/views/login.php" class="bg-white text-blue-700 px-4 py-2 rounded hover:bg-gray-100 transition">Connexion</a>
+      </nav>
+    </div>
+  </header>
+
+
+<!-- Section Hero  -->
+<section class="bg-blue-50 py-20">
+  <div class="container mx-auto px-4 flex flex-col-reverse lg:flex-row items-center justify-between">
+    <!-- Texte -->
+    <div class="lg:w-1/2 text-center lg:text-left mt-10 lg:mt-0">
+      <h2 class="text-4xl font-extrabold text-blue-900 mb-4">Votre budget, simplifié avec <span class="text-blue-600">DigiWallet</span></h2>
+      <p class="text-lg text-blue-800 mb-6">
+        Gardez le contrôle de vos dépenses, suivez vos revenus, et atteignez vos objectifs financiers avec une application moderne et intuitive.
+      </p>
+      <div class="space-x-4">
+        <a href="register.php" class="bg-blue-600 text-white px-6 py-3 rounded shadow hover:bg-blue-700 transition">Créer un compte</a>
+      </div>
+    </div>
+
+    <!-- Image de l'application -->
+    <div class="lg:w-1/2 flex justify-center">
+      <img src="bghero.png" alt="Aperçu DigiWallet" class="max-w-full h-auto drop-shadow-xl rounded">
+    </div>
+  </div>
+</section>
+
+  <!-- Fonctionnalités -->
+  <section id="features" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h3 class="text-3xl font-bold text-center mb-12">Fonctionnalités clés</h3>
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+        <div class="p-6 bg-gray-50 rounded shadow hover:shadow-md transition">
+          <h4 class="text-xl font-semibold mb-2">📊 Solde et transactions</h4>
+          <p class="text-gray-600">Visualisez votre solde et toutes vos opérations en un coup d'œil.</p>
+        </div>
+        <div class="p-6 bg-gray-50 rounded shadow hover:shadow-md transition">
+          <h4 class="text-xl font-semibold mb-2">📆 Historique détaillé</h4>
+          <p class="text-gray-600">Filtrez vos dépenses par mois, année, et catégorie.</p>
+        </div>
+        <div class="p-6 bg-gray-50 rounded shadow hover:shadow-md transition">
+          <h4 class="text-xl font-semibold mb-2">🔒 Sécurité des données</h4>
+          <p class="text-gray-600">Vos informations sont cryptées pour une protection maximale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pourquoi DigiWallet -->
+  <section id="why" class="py-16 bg-gray-100">
+    <div class="container mx-auto px-4 text-center">
+      <h3 class="text-3xl font-bold mb-6">Pourquoi choisir DigiWallet ?</h3>
+      <p class="text-gray-700 max-w-2xl mx-auto mb-8">DigiWallet est votre compagnon idéal pour une gestion financière simple, rapide et efficace. Profitez d'une interface intuitive, accessible sur tous vos appareils, gratuitement.</p>
+      <a href="../Projet/views/register.php" class="bg-blue-600 text-white px-6 py-3 rounded shadow hover:bg-blue-700 transition">
+        Rejoindre DigiWallet
+      </a>
+    </div>
+  </section>
+
+  <!-- Pied de page -->
+  <footer class="bg-blue-700 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+      &copy; <?= date('Y') ?> DigiWallet. Tous droits réservés.
+    </div>
+  </footer>
 
 </body>
 </html>

@@ -36,3 +36,10 @@ function logUser($email,$password,$connection) {
     }
 }
 
+function detailsUser($connection) {
+    $query = "SELECT * FROM users WHERE idUser = :idUser";
+    $stmt = $connection->prepare($query);
+    $stmt->bindParam(':idUser', $_SESSION['idUser'], PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC); 
+}

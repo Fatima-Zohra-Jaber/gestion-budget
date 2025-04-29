@@ -1,12 +1,18 @@
 
     <!-- Navbar -->
     <nav x-data="{ open: false }" class="bg-white shadow-md backdrop-blur-lg dark:bg-gray-900 dark:shadow-lg">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:max-w-6xl">
             <div class="relative flex h-20 items-center justify-between">
+                <div class="flex-shrink-0">
+                    <a href="../index.php">
+                        <img class="h-14 w-auto" src="../images/logo.png" alt="Gestion Budget Logo">
+                    </a>
+                </div>
                 <div>
-                    <a href="dashboard.php">Dashboard</a>
-                    <a href="transactions.php">Transactions</a>
-
+                    <a href="dashboard.php" class="text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">
+                        Tableau de Bord</a>
+                    <a href="transactions.php" class="text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-sm font-medium">
+                        Transactions</a>
                 </div>
                 <div class="flex lg:hidden">
                     <button 
@@ -76,9 +82,8 @@
             <!-- Mobile Menu -->
             <div x-show="open" class="lg:hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="index.php" class="text-gray-900 hover:bg-gray-100 block px-3 py-2 rounded-md font-medium">Accueil</a>
-                    <a href="#" class="text-gray-900 hover:bg-gray-100 block px-3 py-2 rounded-md font-medium">À propos</a>
-                    <a href="#" class="text-gray-900 hover:bg-gray-100 block px-3 py-2 rounded-md font-medium">Contact</a>
+                    <a href="dashboard.php" class="text-gray-900 hover:bg-gray-100 block px-3 py-2 rounded-md font-medium">Tableau de Bord </a>
+                    <a href="transactions.php" class="text-gray-900 hover:bg-gray-100 block px-3 py-2 rounded-md font-medium">Transactions</a>
 
                     
                         <div class="border-t border-gray-200 pt-4">
