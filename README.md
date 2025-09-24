@@ -1,6 +1,6 @@
 # DigiWallet
 
-[![Home Page](images/gestion-budget-Home.png)]
+![Home Page](images/gestion-budget-Home.png)
 
 ## Description
 Une application web développée en PHP permettant à un utilisateur de gérer facilement ses revenus et dépenses, de suivre l’évolution de son solde, et de visualiser un historique et un résumé budgétaire.
@@ -17,13 +17,13 @@ Une application web développée en PHP permettant à un utilisateur de gérer f
 
 - Tableau de bord :
 
-Solde actuel de l’utilisateur.
+    Solde actuel de l’utilisateur.
 
-Résumé du mois en cours : total des revenus et dépenses.
+    Résumé du mois en cours : total des revenus et dépenses.
 
-Répartition par catégorie (revenus/dépenses).
+    Répartition par catégorie (revenus/dépenses).
 
-Identification de la plus grande dépense et du plus grand revenu du mois.
+    Identification de la plus grande dépense et du plus grand revenu du mois.
 
 ## Structure du projet
 
@@ -60,7 +60,6 @@ Données nettoyées et validées avant insertion (prévention des injections SQL
 
 ```bash
 git clone https://github.com/Fatima-Zohra-Jaber/gestion-budget
-cd gestion-budget
 
 ```
 
@@ -80,4 +79,4 @@ cd gestion-budget
 
 ### Historique des transactions filtrable
 
-[![Historique des transactions](images/gestion-budget-transactions.png)]
+![Historique des transactions](images/gestion-budget-transactions.png)
